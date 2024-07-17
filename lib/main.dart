@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'core/configs/theme/app_theme.dart';
+import 'presentation/pages/splashPage/splash_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Spotify',
       theme: AppTheme.lightTheme,
-      home: Container(),
+      home:  const SplashPage(),
     );
   }
 }
