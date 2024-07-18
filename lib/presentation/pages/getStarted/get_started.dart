@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/presentation/pages/choose_mode_page/choose_mode_page.dart';
 import 'package:spotify/presentation/widgets/basic_app_button.dart';
 
 class GetStarted extends StatelessWidget {
@@ -21,6 +22,12 @@ class GetStarted extends StatelessWidget {
                 image: AssetImage(AppImages.introBG),
               ),
             ),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.15),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
             child: Column(
               children: [
                 Align(
@@ -51,20 +58,24 @@ class GetStarted extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                 const SizedBox(
-            height: 20,
-          ),
-          BasicAppButton(
-            onpressed: () {},
-            title: 'Get Started',
-          ),
+                const SizedBox(
+                  height: 20,
+                ),
+                BasicAppButton(
+                  onpressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const ChooseModePage(),
+                      ),
+                    );
+                  },
+                  title: 'Get Started',
+                ),
               ],
             ),
           ),
-         
-          Container(
-            color: Colors.black.withOpacity(0.15),
-          )
         ],
       ),
     );
