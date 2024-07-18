@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:spotify/core/configs/assets/app_images.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
 import 'package:spotify/core/configs/theme/app_colors.dart';
+import 'package:spotify/presentation/pages/auth/signup.dart';
 import 'package:spotify/presentation/widgets/basic_app_bar.dart';
 import 'package:spotify/presentation/widgets/basic_app_button.dart';
 
@@ -48,12 +49,12 @@ class SignupOrSigninPage extends StatelessWidget {
                   const SizedBox(
                     height: 40,
                   ),
-                   Text(
+                  Text(
                     "Enjoy Listening To Music",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color:context.isDarkMode ? Colors.white : Colors.black,
+                      color: context.isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
                   const SizedBox(
@@ -62,10 +63,9 @@ class SignupOrSigninPage extends StatelessWidget {
                   const Text(
                     "Spotify is a Proprietary Swedish Audio Streaming and media services provider",
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      color: AppColors.grey
-                    ),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                        color: AppColors.grey),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 30),
@@ -74,7 +74,14 @@ class SignupOrSigninPage extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: BasicAppButton(
-                          onpressed: () {},
+                          onpressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => const Signup(),
+                              ),
+                            );
+                          },
                           title: "Register",
                         ),
                       ),
@@ -90,7 +97,9 @@ class SignupOrSigninPage extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              color:context.isDarkMode ? Colors.white : Colors.black,
+                              color: context.isDarkMode
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                         ),
