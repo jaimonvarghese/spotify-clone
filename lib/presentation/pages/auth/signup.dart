@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
+import 'package:spotify/data/models/auth/create_user_req.dart';
+import 'package:spotify/domain/usecases/auth/signup.dart';
 import 'package:spotify/presentation/pages/auth/sign_in.dart';
+import 'package:spotify/presentation/pages/rootPage/root_page.dart';
 import 'package:spotify/presentation/widgets/basic_app_bar.dart';
 import 'package:spotify/presentation/widgets/basic_app_button.dart';
+import 'package:spotify/service_locator.dart';
 
 class Signup extends StatelessWidget {
-  const Signup({super.key});
+  Signup({super.key});
+
+  final TextEditingController _fullname = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +35,43 @@ class Signup extends StatelessWidget {
             children: [
               const _registerText(),
               const SizedBox(height: 40),
-              const _textField(text: "Full Name"),
+              _textField(
+                text: "Full Name",
+                controller: _fullname,
+              ),
               const SizedBox(height: 20),
-              const _textField(text: "Enter Email"),
+              _textField(
+                text: "Enter Email",
+                controller: _email,
+              ),
               const SizedBox(height: 20),
-              const _textField(text: "Password"),
+              _textField(
+                text: "Password",
+                controller: _password,
+              ),
               const SizedBox(height: 20),
-              BasicAppButton(onpressed: () {}, title: "Create Account"),
+              BasicAppButton(
+                  onpressed: () async {
+                    var result = await sl<SignupUseCase>().call(
+                      params: CreateUserReq(
+                        fullName: _fullname.text.toString(),
+                        email: _email.text.toString(),
+                        password: _password.text.toString(),
+                      ),
+                    );
+                    result.fold((l) {
+                      var snacbar = SnackBar(content: Text(l));
+                      ScaffoldMessenger.of(context).showSnackBar(snacbar);
+                    }, (r) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => const RootPage(),
+                          ),
+                          (route) => false);
+                    });
+                  },
+                  title: "Create Account"),
             ],
           ),
         ),
@@ -62,11 +100,11 @@ class _siginText extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const SignIn(),
+                  builder: (BuildContext context) =>  SignIn(),
                 ),
               );
             },
-            child:const Text("Sign In"))
+            child: const Text("Sign In"))
       ],
     );
   }
@@ -74,14 +112,17 @@ class _siginText extends StatelessWidget {
 
 class _textField extends StatelessWidget {
   final String text;
+  final TextEditingController controller;
   const _textField({
     super.key,
     required this.text,
+    required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         hintText: text,
       ).applyDefaults(Theme.of(context).inputDecorationTheme),
